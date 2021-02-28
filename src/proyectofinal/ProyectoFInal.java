@@ -5,10 +5,6 @@
  */
 package proyectofinal;
 
-/**
- *
- * @author stali
- */
 public class ProyectoFInal {
 
     /**
