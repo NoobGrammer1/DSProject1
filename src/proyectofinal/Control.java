@@ -11,4 +11,23 @@ package proyectofinal;
  */
 public class Control {
     
+    double precioTotal = 0;
+    
+    
+    public double precioPorProducto (int cantidad, double precio){
+        double precioProduc = cantidad*precio;
+        setPrecioTotal(precioProduc+this.precioTotal);
+        
+        return precioProduc;
+    }
+    //setter y getter
+
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
+    
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
+    }
+    
 }

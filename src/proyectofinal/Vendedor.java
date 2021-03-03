@@ -26,5 +26,28 @@ public class Vendedor extends Persona{
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
+
+    public int getRUCv() {
+        return RUCv;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public String getNombre() {
+        return Nombre;
+    }
+
+    public String getApellido() {
+        return Apellido;
+    }
+    
+
+    @Override
+    public String toString() {
+        return "Vendedor a Cargo: "+ getNombre()+ " "+ getApellido()+"\n" + "RUC: " + RUCv + "\nCódigo: " + codigo +"\n";
+    }
+    
     
 }
