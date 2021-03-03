@@ -9,7 +9,7 @@ package proyectofinal;
  *
  * @author Oscar
  */
-public class Persona {
+public class Persona extends Control{
     String Nombre;
     String Apellido;
 
