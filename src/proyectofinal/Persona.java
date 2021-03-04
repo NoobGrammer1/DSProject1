@@ -9,7 +9,7 @@ package proyectofinal;
  *
  * @author Oscar
  */
-public class Persona extends Control{
+public class Persona{
     String Nombre;
     String Apellido;
 
@@ -25,5 +25,6 @@ public class Persona extends Control{
     public void setApellido(String Apellido) {
         this.Apellido = Apellido;
     }
+    
     
 }

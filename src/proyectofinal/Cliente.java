@@ -20,5 +20,23 @@ public class Cliente extends Persona{
     public void setRUCc(int RUCc) {
         this.RUCc = RUCc;
     }
+
+    public int getRUCc() {
+        return RUCc;
+    }
+
+    public String getNombre() {
+        return Nombre;
+    }
+
+    public String getApellido() {
+        return Apellido;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente: "+ getNombre()+" "+getApellido()+ "\nRUC: " + RUCc +"\n";
+    }
+    
     
 }
