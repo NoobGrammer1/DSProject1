@@ -19,6 +19,7 @@ private double precio;
 //contructores
 
     public Mercaderia() {
+            
     }
 
     public Mercaderia(String nombre, int codigo, int cantidad, double precio) {
@@ -62,6 +63,7 @@ private double precio;
     public double getPrecio() {
         return precio;
     }
+     
     //metodo toString
 
     @Override
