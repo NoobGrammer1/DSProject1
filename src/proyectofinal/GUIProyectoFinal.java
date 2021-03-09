@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package proyectofinal;
 
 import java.awt.Component;
@@ -20,29 +16,34 @@ import javax.swing.table.DefaultTableModel;
  * @author krono
  */
 public class GUIProyectoFinal extends javax.swing.JFrame {
-//Para contar cuantas veces se van ingresando los registros de cada tabla.
+//Hay un mogollón de variables :,u .
 
-    int productosComprados;
-    String elements = "";
     int sumaTotal = 0;
-    Vendedor vendedorUno;
-    Vendedor vendedorDos;
-    Vendedor vendedorTres;
+
     int vendAleatorio;
-    double precioProducto = 0;
     int numeroEjecuciones = 0;
     int coincidencias[] = {99, 99, 99, 99, 99};
     int precios[] = {99, 99, 99, 99, 99};
+    int elementosComprados = 0;
+
+    String elements = "";
+
+    double precioProducto = 0;
+
     boolean isMatched;
     boolean hasRows;
-    int elementosComprados = 0;
+
+    //Arreglo de los empleados del almacén
     Vendedor vendedores[];
-    //Declaramos los arreglos para cada tabla.*/
+
+    //Declaramos los arreglos para gestión de inventario.*/
     ArrayList<Mercaderia> productos;
     ArrayList<String> nombreProductos;
     ArrayList<String> tipoProductos;
     ArrayList<Mercaderia> carrito;
-    //Declarar los modelos de cada tabla
+    ArrayList<Integer> cantidadesCarrito;
+
+    //Declarar el modelo de cada tabla
     DefaultTableModel dtmModeloTablaUno;
     Cliente client;
 
@@ -52,7 +53,7 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             component.setEnabled(false);
         }
     }
-// Esta hace lo contrario
+    // Esta hace lo contrario
 
     public static void enableComponents(Container panelName) {
         for (Component component : panelName.getComponents()) {
@@ -65,14 +66,19 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
      */
     public GUIProyectoFinal() {
         initComponents();
+
         txaPrecios.setEditable(false);
+
         disableComponents(pnlAdmin);
         disableComponents(pnlCliente);
         disableComponents(pnlMer);
+
         carrito = new ArrayList<>();
         productos = new ArrayList<>();
         nombreProductos = new ArrayList<>();
         tipoProductos = new ArrayList<>();
+        cantidadesCarrito = new ArrayList<>();
+
         dtmModeloTablaUno = new DefaultTableModel();
         dtmModeloTablaUno.addColumn("Nombre");
         dtmModeloTablaUno.addColumn("Tipo");
@@ -80,6 +86,7 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         dtmModeloTablaUno.addColumn("Cantidad");
         dtmModeloTablaUno.addColumn("Precio");
         tblInventario.setModel(dtmModeloTablaUno);
+
         vendedores = new Vendedor[3];
         vendedores[0] = new Vendedor(178459278, "EMP-001", "Almendro", "Pedrerlol");
         vendedores[1] = new Vendedor(172346863, "EMP-002", "Juana", "Caicho");
@@ -87,6 +94,7 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
 
     }
 
+    //Para limipiar paneles
     public void adminCleaner() {
 
         txtNombreProducto.setText("");
@@ -566,9 +574,12 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUnidadComponentHidden
 
     private void rbtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtClienteActionPerformed
+
+        //Cuando se presiona en cliente, se deshabilita los otros paneles.
         disableComponents(pnlAdmin);
         disableComponents(pnlMer);
         enableComponents(pnlCliente);
+        //Para borrar los datos de tabla, los cuales pueden quedar visibles.
         if (hasRows) {
             for (int l = 0; l < dtmModeloTablaUno.getRowCount(); l++) {
                 dtmModeloTablaUno.removeRow(l);
@@ -576,6 +587,8 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             }
             hasRows = false;
         }
+
+        //Para añadir los datos
         if (nombreProductos.size() > 0) {
             cmbProductoCompra.removeAllItems();
             for (int insert = 0; insert < nombreProductos.size(); insert++) {
@@ -583,20 +596,23 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                 cmbProductoCompra.addItem(nombreProductos.get(insert));
             }
         }
+
         cmbProductoCompra.setSelectedIndex(-1);
 
         Control controlador = new Control();
         String prizes = "";
 
+        //Para mostrar en el campo de texto la lista de precios de los productos insertados.
         for (int r = 0; r < productos.size(); r++) {
             prizes += productos.get(r).getNombre() + ": $" + controlador.precioPorUnidad(productos.get(r).getPrecio()) + "\n";
         }
         txaPrecios.setText(prizes);
-
+        btgTipo.clearSelection();
 
     }//GEN-LAST:event_rbtClienteActionPerformed
 
     private void rbtPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtPersonalActionPerformed
+        //Desplegar la ventana de autenticación.
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Ingrese la contraseña:");
         JPasswordField pass = new JPasswordField(4);
@@ -607,13 +623,10 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         JOptionPane.showOptionDialog(null, panel, "Personal Administrativo",
                 JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
                 null, options, options[1]);
-        System.out.println(pass.getClass());
-        System.out.println(pass.getPassword());
-        String contra = String.valueOf(pass.getPassword());
-        System.out.println("Impressing the password " + contra);
+        //Verificando la entrada.
         if (!String.valueOf(pass.getPassword()).equals("1234")) {
             JOptionPane.showMessageDialog(rootPane, "BAD");
-            btgTipo.clearSelection();
+
         } else {
             System.out.println("QUE PASA!");
             enableComponents(pnlAdmin);
@@ -621,11 +634,11 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             disableComponents(pnlCliente);
             clientCleaner();
         }
-
+        btgTipo.clearSelection();
     }//GEN-LAST:event_rbtPersonalActionPerformed
 
     private void btnGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCambiosActionPerformed
-
+        //Detectar la insercion de codigo en blanco.... de hecho este bloque esta de más.
         boolean codigoValido;
         switch (txtCodigo.getText()) {
             case "LIB-":
@@ -636,79 +649,97 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             default:
                 codigoValido = true;
         }
+        //Iniciar el bloque try para atrapar excepciones con las entradas de usuarios.
+        try {
+            //Para evitar espacios en blanco, o codigos con mas de 7 caracteres.
 
-        if (cmbProducto.getSelectedItem().equals("") || txtCodigo.getText().equals("") || txtCodigo.getText().length() != 7
-                || txtCosto.getText().equals("") || txtUnidad.getText().equals("") || !codigoValido
-                || txtNombreProducto.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "¡Algo no ha ido como se esperaba!");
-        } else {
-            System.out.println(cmbProducto.getSelectedItem().toString());
-            isMatched = false;
-            int k = 0;
-            System.out.println(nombreProductos.size());
-            System.out.println(tipoProductos.size());
-            if (numeroEjecuciones > 0) {
-                if (nombreProductos.contains(txtNombreProducto.getText())) {
-                    System.out.println("\n Checking types of productos\n\n");
-                    for (int j = 0; j < nombreProductos.size(); j++) {
-                        if (nombreProductos.get(j).equals(txtNombreProducto.getText()) && tipoProductos.get(j).equals(cmbProducto.getSelectedItem().toString())) {
-                            System.out.println("PAREÇE HABER MATCH CON: " + nombreProductos.get(j));
-                            System.out.println("De tipos... " + tipoProductos.get(j));
-                            coincidencias[k] = j;
-                            k++;
+            if (cmbProducto.getSelectedItem().equals("") || txtCodigo.getText().equals("") || txtCodigo.getText().length() != 7
+                    || txtCosto.getText().equals("") || txtUnidad.getText().equals("") || !codigoValido
+                    || txtNombreProducto.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "¡Algo no ha ido como se esperaba!");
+            } else {
+                //System.out.println(cmbProducto.getSelectedItem().toString());
+
+                isMatched = false;
+                int k = 0;
+
+                //System.out.println(nombreProductos.size());
+                //System.out.println(tipoProductos.size());
+                //Iniciamos una busqueda en el arreglo, buscando coincidencias en los nombres y tipos de algun producto
+                if (numeroEjecuciones > 0) {
+                    if (nombreProductos.contains(txtNombreProducto.getText())) {
+                        //System.out.println("\n Checking types of productos\n\n");
+                        for (int j = 0; j < nombreProductos.size(); j++) {
+                            if (nombreProductos.get(j).equals(txtNombreProducto.getText()) && tipoProductos.get(j).equals(cmbProducto.getSelectedItem().toString())) {
+                                //System.out.println("PAREÇE HABER MATCH CON: " + nombreProductos.get(j));
+                                //System.out.println("De tipos... " + tipoProductos.get(j));
+                                coincidencias[k] = j;
+                                k++;
+                            }
+                            //System.out.println("---------------------------------------------------------------------");
                         }
-                        System.out.println("---------------------------------------------------------------------");
                     }
-                }
+                    //System.out.println("\t\t::::Verificando coincidencias::::\n");
 
-                System.out.println("\t\t::::Verificando coincidencias::::\n");
-                for (int con = 0; con < 5; con++) {
-                    if (coincidencias[con] != 99) {
-                        isMatched = true;
-                        nombreProductos.set(coincidencias[con], txtNombreProducto.getText());
+                    //Las coincidencias encontradas en el bloque anterior se usan para generar modificaciones, sumar las cantidades.
+                    //considerando que aquella entrada corresponde a una adicion al inventario.
+                    for (int con = 0; con < 5; con++) {
+                        if (coincidencias[con] != 99) {
+                            isMatched = true;
+                            nombreProductos.set(coincidencias[con], txtNombreProducto.getText());
 
-                        tipoProductos.set(coincidencias[con], cmbProducto.getSelectedItem().toString());
+                            tipoProductos.set(coincidencias[con], cmbProducto.getSelectedItem().toString());
 
-                        System.out.println("\t\t::::Se ha encontrado match::::" + productos.get(coincidencias[con]).toString() + "\n");
-
-                        productos.set(coincidencias[con], new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
-                                productos.get(coincidencias[con]).getCantidad() + Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
-                        coincidencias[con] = 99;
+                            //System.out.println("\t\t::::Se ha encontrado match::::" + productos.get(coincidencias[con]).toString() + "\n");
+                            productos.set(coincidencias[con], new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
+                                    productos.get(coincidencias[con]).getCantidad() + Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
+                            coincidencias[con] = 99;
+                        }
                     }
-                }
-                if (!isMatched) {
-                    productos.add(new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
-                            Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
+
+                    //Por si no se encuentran coindicencias
+                    if (!isMatched) {
+                        productos.add(new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
+                                Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
+                        nombreProductos.add(txtNombreProducto.getText());
+                        tipoProductos.add(cmbProducto.getSelectedItem().toString());
+                    }
+                    /*System.out.println("Imprimiendo la lista de productos");
+                    productos.forEach(me -> {
+                        System.out.println(me);
+                    });
+
+                    System.out.println("Imprimiendo los nombres de productos");
+                    nombreProductos.forEach(np -> {
+                        System.out.println(np);
+                    });*/
+
+                } else { //Cuando es la primera ejecucion...
                     nombreProductos.add(txtNombreProducto.getText());
                     tipoProductos.add(cmbProducto.getSelectedItem().toString());
-                }
-                System.out.println("Imprimiendo la lista de productos");
-                productos.forEach(me -> {
-                    System.out.println(me);
-                });
+                    productos.add(new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
+                            Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
+                }/*
+                for (int it = 0; it < 5; it++) {
+                    System.out.println(coincidencias[it]);
+                }*/
 
-                System.out.println("Imprimiendo los nombres de productos");
-                nombreProductos.forEach(np -> {
-                    System.out.println(np);
-                });
-            } else {
-                nombreProductos.add(txtNombreProducto.getText());
-                tipoProductos.add(cmbProducto.getSelectedItem().toString());
-                productos.add(new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
-                        Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
-            }
-            for (int it = 0; it < 5; it++) {
-                System.out.println(coincidencias[it]);
-            }
-            adminCleaner();
-            numeroEjecuciones++;
+                //Para limpiar los campos
+                adminCleaner();
+                numeroEjecuciones++;
 
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "...Revise los datos de su entrada por favor...");
         }
 
 
     }//GEN-LAST:event_btnGuardarCambiosActionPerformed
 
     private void cmbProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProductoActionPerformed
+        /*Este bloque "pre-llena" el campo del codigo, basado en el tipo de producto que se elige.
+       Genera algunas excepciones, por el orden de ejecucion, como guardar va primero, y ese bloque limpia
+       El combo tipo producto, entonces genera una excepcion, la cual se atrapa con try & catch*/
         try {
             switch (cmbProducto.getSelectedItem().toString()) {
                 case "Libro":
@@ -725,10 +756,10 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             System.out.println("I cover it!");
             System.out.println("---------------------------------------------------");
         }
-
     }//GEN-LAST:event_cmbProductoActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        //Para limpiar la tabla cada ves que, estando en AdminPanel y se consulta la tabla.
         if (hasRows) {
             for (int l = 0; l < dtmModeloTablaUno.getRowCount(); l++) {
                 dtmModeloTablaUno.removeRow(l);
@@ -736,7 +767,8 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             }
             hasRows = false;
         }
-
+        
+        //Para añadir al comboBox los productos añadidos
         for (int l = 0; l < productos.size(); l++) {
             dtmModeloTablaUno.addRow(new Object[]{productos.get(l).getNombre(), tipoProductos.get(l), productos.get(l).getCodigo(),
                 productos.get(l).getCantidad(), productos.get(l).getPrecio()});
@@ -745,35 +777,42 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        
+        try {
         if (txtNombre.getText().equals("") || txtApellido.getText().equals("") || txtRUC.getText().equals("")
                 || cmbProductoCompra.getSelectedIndex() == -1 || txtCantidaCompra.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "¡Algo no ha ido como se esperaba!");
         } else {
+            //Iniciamos la agregación de productos a la factura.
             int x = 0;
             double comprobarCantidad = 0;
-            System.out.println(cmbProductoCompra.getSelectedItem().toString().substring(0, 2));
+            //System.out.println(cmbProductoCompra.getSelectedItem().toString().substring(0, 2));
+                
+            //Empezamos la busqueda de coincidencias en los productos que se han ingresado en Admin panel
             if (nombreProductos.contains(cmbProductoCompra.getSelectedItem().toString())) {
-                System.out.println("\n Checking types of productos\n\n");
+                //System.out.println("\n Checking types of productos\n\n");
 
                 for (int j = 0; j < nombreProductos.size(); j++) {
                     if (nombreProductos.get(j).equals(cmbProductoCompra.getSelectedItem().toString())) {
-                        System.out.println("ENCONTRADO!!: " + nombreProductos.get(j));
-                        System.out.println("De tipos... " + tipoProductos.get(j));
+                        //System.out.println("ENCONTRADO!!: " + nombreProductos.get(j));
+                        //System.out.println("De tipos... " + tipoProductos.get(j));
                         precios[x] = j;
                         x++;
                     }
-                    System.out.println("---------------------------------------------------------------------");
+                    //System.out.println("---------------------------------------------------------------------");
                 }
             }
 
-            System.out.println("\t\t::::Verificando coincidencias::::\n");
+            //System.out.println("\t\t::::Verificando coincidencias::::\n");
             for (int con = 0; con < 5; con++) {
                 if (precios[con] != 99) {
                     int productosSelectos = Integer.parseInt(txtCantidaCompra.getText());
-                    
+
                     comprobarCantidad = productos.get(precios[con]).getCantidad() - Integer.parseInt(txtCantidaCompra.getText());
-                    System.out.println("ComprObando Cantidash ::: " +productosSelectos);
-                    System.out.println(comprobarCantidad);
+                    //System.out.println("ComprObando Cantidash ::: " + productosSelectos);
+                    //System.out.println(comprobarCantidad);
+                    
+                    //Para evitar que se compren mas productos de los que se tienen en inventario
                     if (comprobarCantidad < 0) {
                         JOptionPane.showMessageDialog(rootPane, "...No existe tal cantidad de productos :,u....");
                     } else {
@@ -781,10 +820,10 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                                 productos.get(precios[con]).getCantidad() - Integer.parseInt(txtCantidaCompra.getText()), productos.get(precios[con]).getPrecio()));
 
                         carrito.add(productos.get(precios[con]));
-                        
+
                         sumaTotal += carrito.get(precios[con]).getPrecio() * (Integer.parseInt(txtCantidaCompra.getText())) * 1.3;
                         elementosComprados++;
-                        System.out.println(precioProducto);
+                      //System.out.println(precioProducto);
 
                         precios[con] = 99;
                     }
@@ -792,31 +831,35 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             }
 
             //txtPrecioCompra.setText(String.valueOf(controlador.precioPorProducto(Integer.parseInt(txtCantidaCompra.getText()), precioProducto)));
+            
+            //Creando un nuevo cliente con los datos ingresados en la GUI
             client = new Cliente(Integer.parseInt(txtRUC.getText()), txtNombre.getText(), txtApellido.getText());
+            //Elegir el vendedor de manera aleatoria.
             vendAleatorio = (int) (Math.random() * 3) + 1;
-            System.out.println("SE han CompraDO : " + elementosComprados);
-            System.out.println("La longitush del carrito is: " + carrito.size());
-
+            //System.out.println("SE han CompraDO : " + elementosComprados);
+            //System.out.println("La longitush del carrito is: " + carrito.size());
         }
-        productosComprados = Integer.parseInt(txtCantidaCompra.getText());
-        txtCantidaCompra.setText(
-                "");
-        cmbProductoCompra.setSelectedIndex(
-                -1);
-
+        //Añadir el valor de la cantidad elegida al ArrayList
+        cantidadesCarrito.add(Integer.parseInt(txtCantidaCompra.getText()));
+        txtCantidaCompra.setText("");
+        cmbProductoCompra.setSelectedIndex(-1);
+        } catch (Exception e){
+                //System.out.println("Algo salio mal?");
+                JOptionPane.showMessageDialog(rootPane, "Tal parece que algo salio terriblemente mal");
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
+        //De los productos seleccionados, generamos un String para la factura.
         for (int y = 0; y < carrito.size(); y++) {
 
-            elements += "Concepto producto " + (y + 1) + ": " + carrito.get(y).getNombre() + ", cantidad: " + productosComprados + " \n";
+            elements += "Concepto producto " + (y + 1) + ": " + carrito.get(y).getNombre() + ", cantidad: " + cantidadesCarrito.get(y) + " \n";
 
-      
         }
-
+        //La factura se muestra en una ventana.
         JOptionPane.showMessageDialog(null, "Nombre: " + client.getNombre() + "\n"
                 + "Apellido: " + client.getApellido() + "\n"
-                + "RUC: " + client.getRUCc() + "\n" + elements + "\n valor total: "
+                + "RUC: " + client.getRUCc() + "\n" + elements + "\n Valor total: $"
                 + (sumaTotal) + "\n Atendido por: " + vendedores[vendAleatorio - 1].getNombre()
                 + " " + vendedores[vendAleatorio - 1].getApellido());
     }//GEN-LAST:event_btnGenerarActionPerformed
