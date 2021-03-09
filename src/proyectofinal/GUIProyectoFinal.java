@@ -862,6 +862,11 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                 + "RUC: " + client.getRUCc() + "\n" + elements + "\n Valor total: $"
                 + (sumaTotal) + "\n Atendido por: " + vendedores[vendAleatorio - 1].getNombre()
                 + " " + vendedores[vendAleatorio - 1].getApellido());
+        //Reseteamos todos los arraylists after generating bill
+        cantidadesCarrito.removeAll(cantidadesCarrito);
+        carrito.removeAll(carrito);
+        elements = "";
+        clientCleaner();
     }//GEN-LAST:event_btnGenerarActionPerformed
 
     private void cmbProductoCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProductoCompraActionPerformed
