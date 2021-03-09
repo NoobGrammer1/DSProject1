@@ -8,7 +8,6 @@ package proyectofinal;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
-import java.util.Collections;
 import javax.swing.JLabel;
 
 import javax.swing.JOptionPane;
@@ -23,16 +22,28 @@ import javax.swing.table.DefaultTableModel;
 public class GUIProyectoFinal extends javax.swing.JFrame {
 //Para contar cuantas veces se van ingresando los registros de cada tabla.
 
+    String elements = "";
+    int sumaTotal = 0;
+    Vendedor vendedorUno;
+    Vendedor vendedorDos;
+    Vendedor vendedorTres;
+    int vendAleatorio;
+    double precioProducto = 0;
     int numeroEjecuciones = 0;
     int coincidencias[] = {99, 99, 99, 99, 99};
+    int precios[] = {99, 99, 99, 99, 99};
     boolean isMatched;
-    /*int numeroLibros = 0;
-    int numeroTelefonos = 0;
+    boolean hasRows;
+    int elementosComprados = 0;
+    Vendedor vendedores[];
     //Declaramos los arreglos para cada tabla.*/
     ArrayList<Mercaderia> productos;
     ArrayList<String> nombreProductos;
+    ArrayList<String> tipoProductos;
+    ArrayList<Mercaderia> carrito;
     //Declarar los modelos de cada tabla
     DefaultTableModel dtmModeloTablaUno;
+    Cliente client;
 
     //Esta funcion deshabilita los componentes de un panel
     public static void disableComponents(Container panelName) {
@@ -53,11 +64,25 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
      */
     public GUIProyectoFinal() {
         initComponents();
+        txtPrecioCompra.setEditable(false);
         disableComponents(pnlAdmin);
         disableComponents(pnlCliente);
         disableComponents(pnlMer);
+        carrito = new ArrayList<>();
         productos = new ArrayList<>();
         nombreProductos = new ArrayList<>();
+        tipoProductos = new ArrayList<>();
+        dtmModeloTablaUno = new DefaultTableModel();
+        dtmModeloTablaUno.addColumn("Nombre");
+        dtmModeloTablaUno.addColumn("Tipo");
+        dtmModeloTablaUno.addColumn("Codigo");
+        dtmModeloTablaUno.addColumn("Cantidad");
+        dtmModeloTablaUno.addColumn("Precio");
+        tblInventario.setModel(dtmModeloTablaUno);
+        vendedores = new Vendedor[3];
+        vendedores[0] = new Vendedor(178459278, "EMP-001", "Almendro", "Pedrerlol");
+        vendedores[1] = new Vendedor(172346863, "EMP-002", "Juana", "Caicho");
+        vendedores[2] = new Vendedor(147845198, "EMP-003", "Magerly", "Chavez");
 
     }
 
@@ -284,6 +309,11 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
 
         btnConsultar.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         btnConsultar.setText("Consultar Inventario");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlAdminLayout = new javax.swing.GroupLayout(pnlAdmin);
         pnlAdmin.setLayout(pnlAdminLayout);
@@ -339,8 +369,6 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         jLabel13.setText("Comprar");
 
         cmbProductoCompra.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
-        cmbProductoCompra.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Libro", "Computador", "Celular" }));
-        cmbProductoCompra.setSelectedIndex(-1);
 
         jLabel14.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         jLabel14.setText("Producto:");
@@ -353,9 +381,19 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
 
         btnAgregar.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnGenerar.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
         btnGenerar.setText("Generar factura");
+        btnGenerar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlClienteLayout = new javax.swing.GroupLayout(pnlCliente);
         pnlCliente.setLayout(pnlClienteLayout);
@@ -523,41 +561,48 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         disableComponents(pnlAdmin);
         disableComponents(pnlMer);
         enableComponents(pnlCliente);
+        if (nombreProductos.size() > 0) {
+            cmbProductoCompra.removeAllItems();
+            for (int insert = 0; insert < nombreProductos.size(); insert++) {
+
+                cmbProductoCompra.addItem(nombreProductos.get(insert));
+            }
+        }
+        cmbProductoCompra.setSelectedIndex(-1);
+
+
     }//GEN-LAST:event_rbtClienteActionPerformed
 
     private void rbtPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtPersonalActionPerformed
-        /* JPanel panel = new JPanel();
+        JPanel panel = new JPanel();
         JLabel label = new JLabel("Ingrese la contraseña:");
         JPasswordField pass = new JPasswordField(4);
         panel.add(label);
         panel.add(pass);
         String[] options = new String[]{"OK", "Cancelar"};
-        
+
         JOptionPane.showOptionDialog(null, panel, "Personal Administrativo",
                 JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
                 null, options, options[1]);
-         System.out.println(pass.getClass());
-         System.out.println(pass.getPassword());
-         String contra = String.valueOf(pass.getPassword());
-         System.out.println("Impressing the password " + contra);
-         if (!String.valueOf(pass.getPassword()).equals("1234")) {
-                JOptionPane.showMessageDialog(rootPane, "BAD");
-            } else {
-                System.out.println("QUE PASA!");
-                enableComponents(pnlAdmin);
-                enableComponents(pnlMer);
-                disableComponents(pnlCliente);
-                clientCleaner();
-            }
-         */
-        enableComponents(pnlAdmin);
-        enableComponents(pnlMer);
-        disableComponents(pnlCliente);
-        clientCleaner();
+        System.out.println(pass.getClass());
+        System.out.println(pass.getPassword());
+        String contra = String.valueOf(pass.getPassword());
+        System.out.println("Impressing the password " + contra);
+        if (!String.valueOf(pass.getPassword()).equals("1234")) {
+            JOptionPane.showMessageDialog(rootPane, "BAD");
+            btgTipo.clearSelection();
+        } else {
+            System.out.println("QUE PASA!");
+            enableComponents(pnlAdmin);
+            enableComponents(pnlMer);
+            disableComponents(pnlCliente);
+            clientCleaner();
+        }
 
     }//GEN-LAST:event_rbtPersonalActionPerformed
 
     private void btnGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCambiosActionPerformed
+
         boolean codigoValido;
         switch (txtCodigo.getText()) {
             case "LIB-":
@@ -574,15 +619,18 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                 || txtNombreProducto.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "¡Algo no ha ido como se esperaba!");
         } else {
+            System.out.println(cmbProducto.getSelectedItem().toString());
             isMatched = false;
             int k = 0;
             System.out.println(nombreProductos.size());
+            System.out.println(tipoProductos.size());
             if (numeroEjecuciones > 0) {
                 if (nombreProductos.contains(txtNombreProducto.getText())) {
-                    System.out.println("\n Impressing the nombre productos\n\n");
+                    System.out.println("\n Checking types of productos\n\n");
                     for (int j = 0; j < nombreProductos.size(); j++) {
-                        if (nombreProductos.get(j).equals(txtNombreProducto.getText())) {
+                        if (nombreProductos.get(j).equals(txtNombreProducto.getText()) && tipoProductos.get(j).equals(cmbProducto.getSelectedItem().toString())) {
                             System.out.println("PAREÇE HABER MATCH CON: " + nombreProductos.get(j));
+                            System.out.println("De tipos... " + tipoProductos.get(j));
                             coincidencias[k] = j;
                             k++;
                         }
@@ -595,7 +643,11 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                     if (coincidencias[con] != 99) {
                         isMatched = true;
                         nombreProductos.set(coincidencias[con], txtNombreProducto.getText());
+
+                        tipoProductos.set(coincidencias[con], cmbProducto.getSelectedItem().toString());
+
                         System.out.println("\t\t::::Se ha encontrado match::::" + productos.get(coincidencias[con]).toString() + "\n");
+
                         productos.set(coincidencias[con], new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
                                 productos.get(coincidencias[con]).getCantidad() + Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
                         coincidencias[con] = 99;
@@ -605,6 +657,7 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                     productos.add(new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
                             Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
                     nombreProductos.add(txtNombreProducto.getText());
+                    tipoProductos.add(cmbProducto.getSelectedItem().toString());
                 }
                 System.out.println("Imprimiendo la lista de productos");
                 productos.forEach(me -> {
@@ -617,6 +670,7 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                 });
             } else {
                 nombreProductos.add(txtNombreProducto.getText());
+                tipoProductos.add(cmbProducto.getSelectedItem().toString());
                 productos.add(new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
                         Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
             }
@@ -651,6 +705,90 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cmbProductoActionPerformed
 
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        if (hasRows) {
+            for (int l = 0; l < dtmModeloTablaUno.getRowCount(); l++) {
+                dtmModeloTablaUno.removeRow(l);
+                l -= 1;
+            }
+            hasRows = false;
+        }
+
+        for (int l = 0; l < productos.size(); l++) {
+            dtmModeloTablaUno.addRow(new Object[]{productos.get(l).getNombre(), tipoProductos.get(l), productos.get(l).getCodigo(),
+                productos.get(l).getCantidad(), productos.get(l).getPrecio()});
+            hasRows = true;
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if (txtNombre.getText().equals("") || txtApellido.getText().equals("") || txtRUC.getText().equals("")
+                || cmbProductoCompra.getSelectedIndex() == -1 || txtCantidaCompra.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "¡Algo no ha ido como se esperaba!");
+        } else {
+            int x = 0;
+            System.out.println(cmbProductoCompra.getSelectedItem().toString().substring(0, 2));
+            if (nombreProductos.contains(cmbProductoCompra.getSelectedItem().toString())) {
+                System.out.println("\n Checking types of productos\n\n");
+
+                for (int j = 0; j < nombreProductos.size(); j++) {
+                    if (nombreProductos.get(j).equals(cmbProductoCompra.getSelectedItem().toString().substring(0, 2))) {
+                        System.out.println("ENCONTRADO!!: " + nombreProductos.get(j));
+                        System.out.println("De tipos... " + tipoProductos.get(j));
+                        precios[x] = j;
+                        x++;
+                    }
+                    System.out.println("---------------------------------------------------------------------");
+                }
+            }
+
+            System.out.println("\t\t::::Verificando coincidencias::::\n");
+            for (int con = 0; con < 5; con++) {
+                if (precios[con] != 99) {
+                    productos.set(precios[con], new Mercaderia(productos.get(precios[con]).getNombre(), productos.get(precios[con]).getCodigo(),
+                            productos.get(precios[con]).getCantidad() - Integer.parseInt(txtCantidaCompra.getText()), productos.get(precios[con]).getPrecio()));
+
+                    carrito.add(productos.get(precios[con]));
+
+                    elementosComprados++;
+                    System.out.println(precioProducto);
+                    precios[con] = 99;
+
+                }
+            }
+        
+
+        Control controlador = new Control();
+        txtPrecioCompra.setText(String.valueOf(controlador.precioPorProducto(Integer.parseInt(txtCantidaCompra.getText()), precioProducto)));
+        client = new Cliente(Integer.parseInt(txtRUC.getText()), txtNombre.getText(), txtApellido.getText());
+        vendAleatorio = (int) (Math.random() * 3) + 1;
+        System.out.println(elementosComprados);
+        System.out.println(carrito.size());
+        for (int y = 0; y < carrito.size(); y++) {
+            elements += "Concepto producto " + y + ": " + carrito.get(y).getNombre() + "\n"
+                    + "Cantidad: " + txtCantidaCompra.getText();
+            sumaTotal += carrito.get(y).getPrecio();
+        }
+
+    }
+
+    txtCantidaCompra.setText (
+            
+
+    "");
+    cmbProductoCompra.setSelectedIndex (
+            
+-1);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
+        JOptionPane.showMessageDialog(null, "Nombre: " + client.getNombre() + "\n"
+                + "Apellido: " + client.getApellido() + "\n"
+                + "RUC: " + client.getRUCc() + "\n" + elements + "\n valor total: "
+                + sumaTotal + "\n Atendido por: " + vendedores[vendAleatorio].getNombre()
+                + " " + vendedores[vendAleatorio].getApellido());
+    }//GEN-LAST:event_btnGenerarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -665,16 +803,31 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIProyectoFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIProyectoFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIProyectoFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIProyectoFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIProyectoFinal.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(GUIProyectoFinal.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(GUIProyectoFinal.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(GUIProyectoFinal.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

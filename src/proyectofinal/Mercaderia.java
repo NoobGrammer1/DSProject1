@@ -10,7 +10,7 @@ package proyectofinal;
  * @author stali
  */
 public class Mercaderia {
-    
+  
 private String nombre;
 private int codigo;
 private int cantidad;
