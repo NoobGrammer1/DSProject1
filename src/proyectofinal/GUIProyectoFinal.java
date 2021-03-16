@@ -1,11 +1,10 @@
-
 package proyectofinal;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.JLabel;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -13,35 +12,32 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author krono
+ * @authors The Noobgrammers
  */
 public class GUIProyectoFinal extends javax.swing.JFrame {
 //Hay un mogollón de variables :,u .
 
-    int sumaTotal = 0;
-
-    int vendAleatorio;
-    int numeroEjecuciones = 0;
-    int coincidencias[] = {99, 99, 99, 99, 99};
-    int precios[] = {99, 99, 99, 99, 99};
-    int elementosComprados = 0;
-
-    String elements = "";
-
-    double precioProducto = 0;
-
+    int sumaTotalV = 0;
+    int vendAleatorioV;
+    int numeroEjecucionesA = 0;
+    int[] coincidenciasA = {99, 99, 99, 99, 99};
+    int[] preciosV = {99, 99, 99, 99, 99};
+    //int elementosComprados = 0;
+    String elementsV = "";
+    String prizes = "";
+    double precioProductoV = 0;
     boolean isMatched;
     boolean hasRows;
 
     //Arreglo de los empleados del almacén
-    Vendedor vendedores[];
+    Vendedor[] vendedoresV;
 
     //Declaramos los arreglos para gestión de inventario.*/
-    ArrayList<Mercaderia> productos;
-    ArrayList<String> nombreProductos;
-    ArrayList<String> tipoProductos;
-    ArrayList<Mercaderia> carrito;
-    ArrayList<Integer> cantidadesCarrito;
+    ArrayList<Mercaderia> productosV;
+    ArrayList<String> nombreProductosAV;
+    ArrayList<String> tipoProductosA;
+    ArrayList<Mercaderia> carritoV;
+    ArrayList<Integer> cantidadesCarritoV;
 
     //Declarar el modelo de cada tabla
     DefaultTableModel dtmModeloTablaUno;
@@ -73,11 +69,11 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         disableComponents(pnlCliente);
         disableComponents(pnlMer);
 
-        carrito = new ArrayList<>();
-        productos = new ArrayList<>();
-        nombreProductos = new ArrayList<>();
-        tipoProductos = new ArrayList<>();
-        cantidadesCarrito = new ArrayList<>();
+        carritoV = new ArrayList<>();
+        productosV = new ArrayList<>();
+        nombreProductosAV = new ArrayList<>();
+        tipoProductosA = new ArrayList<>();
+        cantidadesCarritoV = new ArrayList<>();
 
         dtmModeloTablaUno = new DefaultTableModel();
         dtmModeloTablaUno.addColumn("Nombre");
@@ -87,10 +83,10 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         dtmModeloTablaUno.addColumn("Precio");
         tblInventario.setModel(dtmModeloTablaUno);
 
-        vendedores = new Vendedor[3];
-        vendedores[0] = new Vendedor(178459278, "EMP-001", "Almendro", "Pedrerlol");
-        vendedores[1] = new Vendedor(172346863, "EMP-002", "Juana", "Caicho");
-        vendedores[2] = new Vendedor(147845198, "EMP-003", "Magerly", "Chavez");
+        vendedoresV = new Vendedor[3];
+        vendedoresV[0] = new Vendedor(178459278, "EMP-001", "Almendro", "Pedrerlol");
+        vendedoresV[1] = new Vendedor(172346863, "EMP-002", "Juana", "Caicho");
+        vendedoresV[2] = new Vendedor(147845198, "EMP-003", "Magerly", "Chavez");
 
     }
 
@@ -420,45 +416,51 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlClienteLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
+                .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblRUC)
+                    .addComponent(jLabel14))
                 .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlClienteLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel16))
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbProductoCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel15)
+                        .addContainerGap(194, Short.MAX_VALUE))
                     .addGroup(pnlClienteLayout.createSequentialGroup()
-                        .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblRUC)
-                            .addComponent(jLabel14))
-                        .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGap(19, 19, 19)
+                        .addComponent(txtRUC, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(pnlClienteLayout.createSequentialGroup()
+                .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlClienteLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlClienteLayout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel13)
-                                    .addGroup(pnlClienteLayout.createSequentialGroup()
-                                        .addGap(51, 51, 51)
-                                        .addComponent(btnAgregar))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlClienteLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnGenerar))))
+                                .addGap(55, 55, 55)
+                                .addComponent(btnAgregar))
                             .addGroup(pnlClienteLayout.createSequentialGroup()
-                                .addGap(51, 51, 51)
-                                .addComponent(cmbProductoCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(44, 44, 44)
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCantidaCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20)
+                                .addComponent(btnGenerar))
                             .addGroup(pnlClienteLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(txtRUC, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                                .addComponent(txtCantidaCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(pnlClienteLayout.createSequentialGroup()
+                        .addGap(199, 199, 199)
+                        .addComponent(jLabel13)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlClienteLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addComponent(lblNombre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblApellido)
+                .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addGroup(pnlClienteLayout.createSequentialGroup()
+                        .addComponent(lblNombre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblApellido)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -466,21 +468,21 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         pnlClienteLayout.setVerticalGroup(
             pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlClienteLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(9, 9, 9)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
                     .addComponent(lblApellido)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblRUC)
                     .addComponent(txtRUC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel13)
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbProductoCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
@@ -490,14 +492,15 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                 .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlClienteLayout.createSequentialGroup()
                         .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16)
-                            .addGroup(pnlClienteLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(btnAgregar)))
-                        .addGap(80, 80, 80)
-                        .addComponent(btnGenerar))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16))
+                        .addContainerGap(42, Short.MAX_VALUE))
+                    .addGroup(pnlClienteLayout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(btnAgregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGenerar)
+                        .addGap(58, 58, 58))))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -505,9 +508,9 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(86, Short.MAX_VALUE)
-                .addComponent(pnlAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -543,21 +546,20 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(298, 298, 298)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(338, 338, 338))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -579,6 +581,8 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         disableComponents(pnlAdmin);
         disableComponents(pnlMer);
         enableComponents(pnlCliente);
+
+        
         //Para borrar los datos de tabla, los cuales pueden quedar visibles.
         if (hasRows) {
             for (int l = 0; l < dtmModeloTablaUno.getRowCount(); l++) {
@@ -589,25 +593,20 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
         }
 
         //Para añadir los datos
-        if (nombreProductos.size() > 0) {
+        if (nombreProductosAV.size() > 0) {
             cmbProductoCompra.removeAllItems();
-            for (int insert = 0; insert < nombreProductos.size(); insert++) {
-
-                cmbProductoCompra.addItem(nombreProductos.get(insert));
+            for (int insert = 0; insert < nombreProductosAV.size(); insert++) {
+                prizes += productosV.get(insert).getNombre() + "| $" + productosV.get(insert).getPrecio() + " |Hay " + productosV.get(insert).getCantidad() + "\n";
+                cmbProductoCompra.addItem(nombreProductosAV.get(insert));
             }
         }
 
+        
         cmbProductoCompra.setSelectedIndex(-1);
-
-        Control controlador = new Control();
-        String prizes = "";
-
         //Para mostrar en el campo de texto la lista de precios de los productos insertados.
-        for (int r = 0; r < productos.size(); r++) {
-            prizes += productos.get(r).getNombre() + ": $" + controlador.precioPorUnidad(productos.get(r).getPrecio()) + "\n";
-        }
         txaPrecios.setText(prizes);
         btgTipo.clearSelection();
+
 
     }//GEN-LAST:event_rbtClienteActionPerformed
 
@@ -625,7 +624,7 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                 null, options, options[1]);
         //Verificando la entrada.
         if (!String.valueOf(pass.getPassword()).equals("1234")) {
-            JOptionPane.showMessageDialog(rootPane, "BAD");
+            JOptionPane.showMessageDialog(rootPane, "Mala contraseña");
 
         } else {
             System.out.println("QUE PASA!");
@@ -649,6 +648,7 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             default:
                 codigoValido = true;
         }
+        Control controlador = new Control();
         //Iniciar el bloque try para atrapar excepciones con las entradas de usuarios.
         try {
             //Para evitar espacios en blanco, o codigos con mas de 7 caracteres.
@@ -656,7 +656,7 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             if (cmbProducto.getSelectedItem().equals("") || txtCodigo.getText().equals("") || txtCodigo.getText().length() != 7
                     || txtCosto.getText().equals("") || txtUnidad.getText().equals("") || !codigoValido
                     || txtNombreProducto.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "¡Algo no ha ido como se esperaba!");
+                JOptionPane.showMessageDialog(rootPane, "Error 100 (Consulte el manual)");
             } else {
                 //System.out.println(cmbProducto.getSelectedItem().toString());
 
@@ -666,14 +666,14 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                 //System.out.println(nombreProductos.size());
                 //System.out.println(tipoProductos.size());
                 //Iniciamos una busqueda en el arreglo, buscando coincidencias en los nombres y tipos de algun producto
-                if (numeroEjecuciones > 0) {
-                    if (nombreProductos.contains(txtNombreProducto.getText())) {
+                if (numeroEjecucionesA > 0) {
+                    if (nombreProductosAV.contains(txtNombreProducto.getText())) {
                         //System.out.println("\n Checking types of productos\n\n");
-                        for (int j = 0; j < nombreProductos.size(); j++) {
-                            if (nombreProductos.get(j).equals(txtNombreProducto.getText()) && tipoProductos.get(j).equals(cmbProducto.getSelectedItem().toString())) {
+                        for (int j = 0; j < nombreProductosAV.size(); j++) {
+                            if (nombreProductosAV.get(j).equals(txtNombreProducto.getText()) && tipoProductosA.get(j).equals(cmbProducto.getSelectedItem().toString())) {
                                 //System.out.println("PAREÇE HABER MATCH CON: " + nombreProductos.get(j));
                                 //System.out.println("De tipos... " + tipoProductos.get(j));
-                                coincidencias[k] = j;
+                                coincidenciasA[k] = j;
                                 k++;
                             }
                             //System.out.println("---------------------------------------------------------------------");
@@ -684,25 +684,25 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                     //Las coincidencias encontradas en el bloque anterior se usan para generar modificaciones, sumar las cantidades.
                     //considerando que aquella entrada corresponde a una adicion al inventario.
                     for (int con = 0; con < 5; con++) {
-                        if (coincidencias[con] != 99) {
+                        if (coincidenciasA[con] != 99) {
                             isMatched = true;
-                            nombreProductos.set(coincidencias[con], txtNombreProducto.getText());
+                            nombreProductosAV.set(coincidenciasA[con], txtNombreProducto.getText());
 
-                            tipoProductos.set(coincidencias[con], cmbProducto.getSelectedItem().toString());
+                            tipoProductosA.set(coincidenciasA[con], cmbProducto.getSelectedItem().toString());
 
                             //System.out.println("\t\t::::Se ha encontrado match::::" + productos.get(coincidencias[con]).toString() + "\n");
-                            productos.set(coincidencias[con], new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
-                                    productos.get(coincidencias[con]).getCantidad() + Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
-                            coincidencias[con] = 99;
+                            productosV.set(coincidenciasA[con], new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
+                                    productosV.get(coincidenciasA[con]).getCantidad() + Integer.parseInt(txtUnidad.getText()), controlador.precioPorUnidad(Double.parseDouble(txtCosto.getText()))));
+                            coincidenciasA[con] = 99;
                         }
                     }
 
                     //Por si no se encuentran coindicencias
                     if (!isMatched) {
-                        productos.add(new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
+                        productosV.add(new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
                                 Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
-                        nombreProductos.add(txtNombreProducto.getText());
-                        tipoProductos.add(cmbProducto.getSelectedItem().toString());
+                        nombreProductosAV.add(txtNombreProducto.getText());
+                        tipoProductosA.add(cmbProducto.getSelectedItem().toString());
                     }
                     /*System.out.println("Imprimiendo la lista de productos");
                     productos.forEach(me -> {
@@ -715,9 +715,9 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
                     });*/
 
                 } else { //Cuando es la primera ejecucion...
-                    nombreProductos.add(txtNombreProducto.getText());
-                    tipoProductos.add(cmbProducto.getSelectedItem().toString());
-                    productos.add(new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
+                    nombreProductosAV.add(txtNombreProducto.getText());
+                    tipoProductosA.add(cmbProducto.getSelectedItem().toString());
+                    productosV.add(new Mercaderia(txtNombreProducto.getText(), Integer.parseInt(txtCodigo.getText().substring(4)),
                             Integer.parseInt(txtUnidad.getText()), Double.parseDouble(txtCosto.getText())));
                 }/*
                 for (int it = 0; it < 5; it++) {
@@ -726,11 +726,12 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
 
                 //Para limpiar los campos
                 adminCleaner();
-                numeroEjecuciones++;
+                numeroEjecucionesA++;
 
             }
+               
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "...Revise los datos de su entrada por favor...");
+            JOptionPane.showMessageDialog(rootPane, "Error 701 (Consulte el manual)");
         }
 
 
@@ -767,106 +768,151 @@ public class GUIProyectoFinal extends javax.swing.JFrame {
             }
             hasRows = false;
         }
-        
+
         //Para añadir al comboBox los productos añadidos
-        for (int l = 0; l < productos.size(); l++) {
-            dtmModeloTablaUno.addRow(new Object[]{productos.get(l).getNombre(), tipoProductos.get(l), productos.get(l).getCodigo(),
-                productos.get(l).getCantidad(), productos.get(l).getPrecio()});
+        for (int l = 0; l < productosV.size(); l++) {
+            dtmModeloTablaUno.addRow(new Object[]{productosV.get(l).getNombre(), tipoProductosA.get(l), productosV.get(l).getCodigo(),
+                productosV.get(l).getCantidad(), productosV.get(l).getPrecio()});
             hasRows = true;
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        
+
         try {
-        if (txtNombre.getText().equals("") || txtApellido.getText().equals("") || txtRUC.getText().equals("")
-                || cmbProductoCompra.getSelectedIndex() == -1 || txtCantidaCompra.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "¡Algo no ha ido como se esperaba!");
-        } else {
-            //Iniciamos la agregación de productos a la factura.
-            int x = 0;
-            double comprobarCantidad = 0;
-            //System.out.println(cmbProductoCompra.getSelectedItem().toString().substring(0, 2));
+            if (txtNombre.getText().equals("") || txtApellido.getText().equals("") || txtRUC.getText().equals("")
+                    || cmbProductoCompra.getSelectedIndex() == -1 || txtCantidaCompra.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Error 100 (Consulte el manual)");
+            } else {
+                //Iniciamos la agregación de productos a la factura.
+                int x = 0;
+                double comprobarCantidad = 0;
+                //System.out.println(cmbProductoCompra.getSelectedItem().toString().substring(0, 2));
+                System.out.println("Ingresando a IF");
+                //Empezamos la busqueda de coincidencias en los productos que se han ingresado en Admin panel
+                if (nombreProductosAV.contains(cmbProductoCompra.getSelectedItem().toString())) {
+                    //System.out.println("\n Checking types of productos\n\n");
+                    System.out.println("Ingresando a FOR");
+                    for (int j = 0; j < nombreProductosAV.size(); j++) {
+                        System.out.println("Ingresando al IF del FOR");
+                        if (nombreProductosAV.get(j).equals(cmbProductoCompra.getSelectedItem().toString())) {
+                            //System.out.println("ENCONTRADO!!: " + nombreProductos.get(j));
+                            //System.out.println("De tipos... " + tipoProductos.get(j));
+                            preciosV[x] = j;
+                            x++;
+                        }
+                        //System.out.println("---------------------------------------------------------------------");
+                    }
+                }
+
+                System.out.println("\t\t::::INGRESANDO AL SEGUNDO FOR::::\n");
+                for (int con = 0; con < 5; con++) {
+                    if (preciosV[con] != 99) {
+
+                        comprobarCantidad = productosV.get(preciosV[con]).getCantidad() - Integer.parseInt(txtCantidaCompra.getText());
+                        System.out.println("ComprObando Cantidash ::: ");
+                        System.out.println(comprobarCantidad);
+
+                        //Para evitar que se compren mas productos de los que se tienen en inventario
+                        if (comprobarCantidad < 0) {
+                            JOptionPane.showMessageDialog(rootPane, "...No existe tal cantidad de productos :,u....");
+                            con = 1000;
+                        } else {
+                            System.out.println("Hemos ingresado al else del if???");
+                            productosV.set(preciosV[con], new Mercaderia(productosV.get(preciosV[con]).getNombre(), productosV.get(preciosV[con]).getCodigo(),
+                                    productosV.get(preciosV[con]).getCantidad() - Integer.parseInt(txtCantidaCompra.getText()), productosV.get(preciosV[con]).getPrecio()));
+                            System.out.println("Se ha agregado el nuevo elementoshhh");
+                            carritoV.add(productosV.get(preciosV[con]));
+                            System.out.println(" aqui creeria la falla");
+                            sumaTotalV += productosV.get(preciosV[con]).getPrecio() * (Integer.parseInt(txtCantidaCompra.getText()));
+                            System.out.println("No se ladbd");
+                            //elementosComprados++;
+                            System.out.println("Hemos salido con vida????????" + precioProductoV);
+
+                            preciosV[con] = 99;
+                        }
+                    }
+                }
+
+                //txtPrecioCompra.setText(String.valueOf(controlador.precioPorProducto(Integer.parseInt(txtCantidaCompra.getText()), precioProducto)));
+                //Creando un nuevo cliente con los datos ingresados en la GUI
+                client = new Cliente(Integer.parseInt(txtRUC.getText()), txtNombre.getText(), txtApellido.getText());
+                //Elegir el vendedor de manera aleatoria.
+                vendAleatorioV = (int) (Math.random() * 3) + 1;
+                //System.out.println("SE han CompraDO : " + elementosComprados);
+                //System.out.println("La longitush del carrito is: " + carrito.size());
+            }
+            //Añadir el valor de la cantidad elegida al ArrayList
+            cantidadesCarritoV.add(Integer.parseInt(txtCantidaCompra.getText()));
+            txtCantidaCompra.setText("");
+            cmbProductoCompra.setSelectedIndex(-1);
+             prizes = "";
+             for (int insert = 0; insert < nombreProductosAV.size(); insert++) {
+                prizes += productosV.get(insert).getNombre() + "| $" + productosV.get(insert).getPrecio() + " |Hay " + productosV.get(insert).getCantidad() + "\n";
                 
-            //Empezamos la busqueda de coincidencias en los productos que se han ingresado en Admin panel
-            if (nombreProductos.contains(cmbProductoCompra.getSelectedItem().toString())) {
-                //System.out.println("\n Checking types of productos\n\n");
-
-                for (int j = 0; j < nombreProductos.size(); j++) {
-                    if (nombreProductos.get(j).equals(cmbProductoCompra.getSelectedItem().toString())) {
-                        //System.out.println("ENCONTRADO!!: " + nombreProductos.get(j));
-                        //System.out.println("De tipos... " + tipoProductos.get(j));
-                        precios[x] = j;
-                        x++;
-                    }
-                    //System.out.println("---------------------------------------------------------------------");
-                }
             }
-
-            //System.out.println("\t\t::::Verificando coincidencias::::\n");
-            for (int con = 0; con < 5; con++) {
-                if (precios[con] != 99) {
-                    int productosSelectos = Integer.parseInt(txtCantidaCompra.getText());
-
-                    comprobarCantidad = productos.get(precios[con]).getCantidad() - Integer.parseInt(txtCantidaCompra.getText());
-                    //System.out.println("ComprObando Cantidash ::: " + productosSelectos);
-                    //System.out.println(comprobarCantidad);
-                    
-                    //Para evitar que se compren mas productos de los que se tienen en inventario
-                    if (comprobarCantidad < 0) {
-                        JOptionPane.showMessageDialog(rootPane, "...No existe tal cantidad de productos :,u....");
-                    } else {
-                        productos.set(precios[con], new Mercaderia(productos.get(precios[con]).getNombre(), productos.get(precios[con]).getCodigo(),
-                                productos.get(precios[con]).getCantidad() - Integer.parseInt(txtCantidaCompra.getText()), productos.get(precios[con]).getPrecio()));
-
-                        carrito.add(productos.get(precios[con]));
-
-                        sumaTotal += carrito.get(precios[con]).getPrecio() * (Integer.parseInt(txtCantidaCompra.getText())) * 1.3;
-                        elementosComprados++;
-                      //System.out.println(precioProducto);
-
-                        precios[con] = 99;
-                    }
-                }
-            }
-
-            //txtPrecioCompra.setText(String.valueOf(controlador.precioPorProducto(Integer.parseInt(txtCantidaCompra.getText()), precioProducto)));
-            
-            //Creando un nuevo cliente con los datos ingresados en la GUI
-            client = new Cliente(Integer.parseInt(txtRUC.getText()), txtNombre.getText(), txtApellido.getText());
-            //Elegir el vendedor de manera aleatoria.
-            vendAleatorio = (int) (Math.random() * 3) + 1;
-            //System.out.println("SE han CompraDO : " + elementosComprados);
-            //System.out.println("La longitush del carrito is: " + carrito.size());
-        }
-        //Añadir el valor de la cantidad elegida al ArrayList
-        cantidadesCarrito.add(Integer.parseInt(txtCantidaCompra.getText()));
-        txtCantidaCompra.setText("");
+               
         cmbProductoCompra.setSelectedIndex(-1);
-        } catch (Exception e){
-                //System.out.println("Algo salio mal?");
-                JOptionPane.showMessageDialog(rootPane, "Tal parece que algo salio terriblemente mal");
+        //Para mostrar en el campo de texto la lista de precios de los productos insertados.
+        txaPrecios.setText(prizes);
+        } catch (java.lang.IndexOutOfBoundsException index) {
+            System.out.println("Error 701 (Consulte el manual)");
+        } catch (Exception e) {
+            //System.out.println("Algo salio mal?");
+            JOptionPane.showMessageDialog(rootPane, "Error 701 (Consulte el manual)");
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
         //De los productos seleccionados, generamos un String para la factura.
-        for (int y = 0; y < carrito.size(); y++) {
+        if (carritoV.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Error 404 (Consulte el manual) :,u");
+        } else {
+            for (int y = 0; y < carritoV.size(); y++) {
 
-            elements += "Concepto producto " + (y + 1) + ": " + carrito.get(y).getNombre() + ", cantidad: " + cantidadesCarrito.get(y) + " \n";
+                elementsV += carritoV.get(y).getNombre() + "|    |   |   |   " + cantidadesCarritoV.get(y) + "|    |    |    |     |"
+                        + carritoV.get(y).getPrecio() + " \n";
 
+            }
+            // Deprecated
+            Calendar fecha = Calendar.getInstance();
+            int annio = fecha.get(Calendar.YEAR);
+            int mes = fecha.get(Calendar.MONTH);
+            int dia = fecha.get(Calendar.DAY_OF_MONTH);
+            int nroFactura = 132145;
+            String line = "------------------------------------------------------------------------------";
+            //La factura se muestra en una ventana.
+            JOptionPane.showMessageDialog(null, "                    GRACIAS POR SU COMPRA. \n " + line + "\n Nro Factura: " + nroFactura
+                    + "\n" + "Fecha: " + dia + "/" + mes + "/" + annio
+                    + "\n" + "Cliente: " + client.getNombre() + " " + client.getApellido()
+                    + "\n" + "RUC: " + client.getRUCc()
+                    + "\n" + "Atendido por: " + vendedoresV[vendAleatorioV - 1].getNombre() + " " + vendedoresV[vendAleatorioV - 1].getApellido()
+                    + "\n" + line
+                    + "\n" + "PRODUCTO|   |    |    | CANTIDAD |    |    |    |   | PRECIO (u)  \n"
+                    + "\n" + "" + elementsV
+                    + "\n" + "Valor subtotal (sin IVA): $" + sumaTotalV * 0.88
+                    + "\n" + " Valor total: $" + (sumaTotalV)
+            );
+            //Reseteamos todos los arraylists after generating bill
+            cantidadesCarritoV.removeAll(cantidadesCarritoV);
+            carritoV.removeAll(carritoV);
+            elementsV = "";
+            sumaTotalV = 0;
+            nroFactura++;
+            clientCleaner();
+            JOptionPane.showMessageDialog(rootPane, "Listo para una nueva compra C:");
+             prizes = "";
+             for (int insert = 0; insert < nombreProductosAV.size(); insert++) {
+                prizes += productosV.get(insert).getNombre() + "| $" + productosV.get(insert).getPrecio() + " |hay: " + productosV.get(insert).getCantidad() + "\n";
+                
+            }
+        
+
+        
+        cmbProductoCompra.setSelectedIndex(-1);
+        //Para mostrar en el campo de texto la lista de precios de los productos insertados.
+        txaPrecios.setText(prizes);
         }
-        //La factura se muestra en una ventana.
-        JOptionPane.showMessageDialog(null, "Nombre: " + client.getNombre() + "\n"
-                + "Apellido: " + client.getApellido() + "\n"
-                + "RUC: " + client.getRUCc() + "\n" + elements + "\n Valor total: $"
-                + (sumaTotal) + "\n Atendido por: " + vendedores[vendAleatorio - 1].getNombre()
-                + " " + vendedores[vendAleatorio - 1].getApellido());
-        //Reseteamos todos los arraylists after generating bill
-        cantidadesCarrito.removeAll(cantidadesCarrito);
-        carrito.removeAll(carrito);
-        elements = "";
-        clientCleaner();
     }//GEN-LAST:event_btnGenerarActionPerformed
 
     private void cmbProductoCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProductoCompraActionPerformed
